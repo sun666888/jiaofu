@@ -58,7 +58,19 @@ export default {
             {
               page: true,
               path: "examine",
-              title: "订单审核",
+              title: "订单列表",
+              icon: "el-icon-document"
+            },
+            {
+              page: true,
+              path: "examine-batch",
+              title: "批量审核",
+              icon: "el-icon-document"
+            },
+            {
+              page: true,
+              path: "examine-finance",
+              title: "审核台账",
               icon: "el-icon-document"
             },
           ]
@@ -71,7 +83,51 @@ export default {
             {
               page: true,
               path: "dispatch",
+              title: "订单列表",
+              icon: "el-icon-document"
+            },
+            {
+              page: true,
+              path: "diaodu",
               title: "订单调度",
+              icon: "el-icon-document"
+            },
+            {
+              page: true,
+              path: "taizhang",
+              title: "调度台账",
+              icon: "el-icon-document"
+            },
+          ]
+        },
+        {
+          icon: "el-icon-star-on",
+          path: "p_realName",
+          title: "实名制管理",
+          subs: [
+            {
+              page: true,
+              path: "scalping",
+              title: "刷单列表",
+              icon: "el-icon-document"
+            },
+            {
+              page: true,
+              path: "realName",
+              title: "实名制",
+              icon: "el-icon-document"
+            },
+          ]
+        },
+        {
+          icon: "el-icon-star-on",
+          path: "p_fixedNetwork",
+          title: "固网综调",
+          subs: [
+            {
+              page: true,
+              path: "fixedNetwork",
+              title: "固网综调台账",
               icon: "el-icon-document"
             },
           ]

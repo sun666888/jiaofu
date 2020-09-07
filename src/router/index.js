@@ -24,15 +24,33 @@ const router = new Router({
       },
       children: [
         /**
-         * 账务管理
+         * 调度管理
          */
         {
           path: '/dispatch',
-          name: '订单调度',
+          name: '订单列表',
           component: () => import('@/components/dispatch/dispatch'),
           meta: {
+            title: '订单列表',
+            role: ['管理','调度']
+          }
+        },
+        {
+          path: '/diaodu',
+          name: '订单调度',
+          component: () => import('@/components/dispatch/diaodu'),
+          meta: {
             title: '订单调度',
-            role: ['超级管理员']
+            role: ['管理','调度']
+          }
+        },
+        {
+          path: '/taizhang',
+          name: '调度台账',
+          component: () => import('@/components/dispatch/taizhang'),
+          meta: {
+            title: '调度台账',
+            role: ['管理','调度']
           }
         },
         /**
@@ -43,8 +61,59 @@ const router = new Router({
           name: '订单审核',
           component: () => import('@/components/examine/examine'),
           meta: {
-            title: '订单审核',
-            role: ['超级管理员']
+            title: '订单审核', 
+            role: ['管理','审核']
+          }
+        },
+        {
+          path: '/examine-batch',
+          name: '批量审核',
+          component: () => import('@/components/examine/examine-batch'),
+          meta: {
+            title: '批量审核',
+            role: ['管理','审核']
+          }
+        },
+        {
+          path: '/examine-finance',
+          name: '审核台账',
+          component: () => import('@/components/examine/examine-finance'),
+          meta: {
+            title: '审核台账',
+            role: ['管理','审核']
+          }
+        },
+        /**
+         * 实名制
+         */
+        {
+          path: '/scalping',
+          name: '刷单列表',
+          component: () => import('@/components/realName/scalping'),
+          meta: {
+            title: '刷单列表',
+            role: ['管理','实名制']
+          }
+        },
+        {
+          path: '/realName',
+          name: '实名制管理',
+          component: () => import('@/components/realName/realName'),
+          meta: {
+            title: '实名制',
+            role: ['管理','实名制']
+          }
+        },
+        /**
+         * 审核管理
+         */
+        {
+          path: '/fixedNetwork',
+          name: '固网综调',
+          component: () => import('@/components/fixedNetwork/fixedNetwork'),
+          meta: {
+            title: '固网综调台账',
+            role: ['管理','固网综调']
           }
         },
       ]

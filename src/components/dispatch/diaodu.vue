@@ -1,5 +1,5 @@
 <template>
-  <div class="dispatch">
+  <div class="diaodu">
     <div class="center father">
       <el-card>
           <el-form
@@ -40,16 +40,7 @@
                 <el-option label="再次派单" value="再次派单"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="操作时间" prop="updated_at">
-              <el-date-picker
-              v-model="form.updated_at"
-              type="datetime"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              placeholder="请选择时间"
-              ></el-date-picker>
-            </el-form-item>
             <el-button type="primary" style="margin-left: 20px;" size="medium" icon="el-icon-search" @click="search">查询</el-button>
-            <el-button type="primary" style="margin-left: 20px;" size="medium" icon="el-icon-check" @click="getPi">批量领取</el-button>
           </el-form>
         </el-card>
         <el-card style="margin-top: 20px">
@@ -67,12 +58,11 @@
             <el-table-column prop="ordernumbers" label="订购号码" align="center"></el-table-column>
             <el-table-column prop="mobile" label="联系电话"  align="center"></el-table-column>
             <el-table-column prop="name" label="商品名称" align="center"></el-table-column>
-            <el-table-column prop="updated_at" label="操作时间" align="center"></el-table-column>
-            <el-table-column prop="deal_at" label="成交时间" align="center"></el-table-column>
+            <el-table-column prop="updated_at" label="成交时间" align="center"></el-table-column>
             <el-table-column prop="address" label="地址" align="center" width='400'></el-table-column>
             <el-table-column fixed="right" label="操作" align="center">
               <template slot-scope="scope" >
-                <el-button type="primary" size="mini" icon="el-icon-check"  @click="ling(scope.row)">领取</el-button>
+                <el-button type="primary" size="mini" icon="el-icon-check"  @click="ti(scope.row)">提交</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -87,21 +77,22 @@
           </el-pagination>
         </el-card>
 
-        <el-dialog title="批量领取" :visible.sync="piShow" :before-close="piClose">
-          <el-form ref="piForm" :model="piForm">
-            <el-form-item label="可领取订单：" prop="nums">
-              <el-input style="width:100px" v-model="piForm.nums" readonly auto-complete="off"></el-input>  单
-            </el-form-item>
-            <el-form-item label="领取订单数：" prop="num">
-              <el-input style="width:100px" v-model="piForm.num" clearable auto-complete="off"></el-input>  单
+        <!-- <el-dialog title="提交" :visible.sync="tiShow" :before-close="tiClose">
+          <el-form ref="tiForm" :model="tiForm">
+            <el-form-item label="选择时间" prop="updated_at">
+              <el-date-picker
+              v-model="tiForm.updated_at"
+              type="datetime"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              placeholder="请选择时间"
+              ></el-date-picker>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button @click="piClose">取 消</el-button>
-            <el-button type="primary" :loading="isloadBtn" @click="pi">确 定</el-button>
+            <el-button @click="tiClose">取 消</el-button>
+            <el-button type="primary" :loading="isloadBtn" @click="tiBtn">确 定</el-button>
           </div>
-        </el-dialog>
-
+        </el-dialog> -->
     </div>
   </div>
 </template>
@@ -109,7 +100,7 @@
 <script>
 import zyz from "./../services/zyz";
 export default {
-  name: "dispatch",
+  name: "diaodu",
   inject:['reload'], 
   data() {
     return {
@@ -131,10 +122,9 @@ export default {
       total: 0,
       tabData: [],
       isload:false,
-      piShow: false,
-      piForm: {
-        nums: 0,
-        num: 0
+      multipleSelection: [],
+      tiShow: false,
+      tiForm: {
       },
       isloadBtn: false
 
@@ -151,7 +141,7 @@ export default {
     search() {
       this.isload = true
       this.form.token = this.token
-      zyz.dispatchList(this.form).then(res => {
+      zyz.dispatchSearch(this.form).then(res => {
         if (res.code == 0) {
           this.isload = false
           this.total = res.data.count
@@ -179,49 +169,43 @@ export default {
     dao() {
       
     },
-    ling(rowData) {
-      zyz.singleReceive(rowData.id, this.token).then(res => {
-        if (res.code == 0) {
-          this.$message.success('领取成功')
-          this.search()
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
+    tiClose() {
+      this.$refs.tiForm.resetFields()
+      this.tiShow = false
     },
-    getPi() {
-      this.piShow = true
-      zyz.receiveCount(this.token).then(res => {
-        if (res.code == 0) {
-          this.piForm.nums = res.data.count
-        }
-      })
+    ti(rowData) {
+        // this.tiShow = true
+        zyz.dispatchBtn(rowData.id,this.token).then(res => {
+            if (res.code == 0) {
+                this.$message.success('操作成功')
+                this.search()
+            } else {
+                this.$message.error(res.msg)
+            }
+        })
     },
-    piClose() {
-      this.$refs.piForm.resetFields()
-      this.piShow = false
-    },
-    pi() {
-      this.isloadBtn = true
-      zyz.receive(this.piForm.num,this.token).then(res => {
-        if (res.code == 0) {
-          this.isloadBtn = false
-          this.$message.success('领取成功')
-          this.piShow = false
-          this.$refs.piForm.resetFields()
-          this.search()
-        } else {
-          this.isloadBtn = false
-          this.$message.error(res.msg)
-        }
-      })
-    }
+    // tiBtn() {
+    //     this.tiForm.token = this.token
+    //     this.isloadBtn = true
+    //     zyz.dispatchBtn(this.tiForm).then(res => {
+    //         if (res.code == 0) {
+    //             this.isloadBtn = false
+    //             this.$message.success('操作成功')
+    //             this.$refs.tiForm.resetFields()
+    //             this.tiShow = false
+    //             this.search()
+    //         } else {
+    //             this.isloadBtn = false
+    //             this.$message.error(res.msg)
+    //         }
+    //     })
+    // }
   }
 };
 </script>
 
 <style lang="scss">
-.dispatch {
+.diaodu {
   .father:after {
     content: '';
     display: block;

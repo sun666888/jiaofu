@@ -27,8 +27,33 @@ Vue.prototype.$http=axios;//将axios改写到vue原型属性,调用方式例如t
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
+import audio from 'vue-mobile-audio'
+Vue.use(audio)
 
+// import BaiduMap from 'vue-baidu-map'
+// // 百度地图
+// Vue.use(BaiduMap, {
+//   /* Visit http://lbsyun.baidu.com/apiconsole/key for details about app key. */
+//   ak: '0bv0bHO6rUhovY5DfwXPIzGx'
+// })
 
+import VueAMap from 'vue-amap'
+Vue.use(VueAMap)
+VueAMap.initAMapApiLoader({
+  key: '5d07f19b66c0d7b2e2a781de2b3698d5',
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType',  'AMap.polygon','AMap.PolyEditor', 'AMap.CircleEditor', 'Geocoder', 'DistrictSearch'],
+  v: '1.4.4'
+})
+
+import Viewer from 'v-viewer' // 图片预览
+import 'viewerjs/dist/viewer.css'
+// // 使用图片预览
+Vue.use(Viewer, {
+  defaultOptions: {
+    zIndex: 9999,
+    loop: false
+  }
+})
 
 //4.引入ckeditor
 // import CKEditor from '@ckeditor/ckeditor5-build-decoupled-document'

@@ -12,11 +12,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
        '/api': {
-          target: 'http://datacenter.yslwebsite.com:8083',
+          target: 'http://deliverrobot.yslwebsite.com:8085',
           changeOrigin: true,
-          // pathRewrite: {
-          //   '^/api': 'https://www.bank.yslwebsite.com'
-          // }
       }
 
     },

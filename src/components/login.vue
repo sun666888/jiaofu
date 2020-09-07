@@ -90,8 +90,25 @@ export default {
             //登陆成功跳转主页
             sessionStorage.setItem("token", res.data.token); //token
             sessionStorage.setItem("account", res.data.account); //用户
-            sessionStorage.setItem("position", '超级管理员'); //用户
-            this.$router.replace({ path: "/examine" });
+            sessionStorage.setItem("position", res.data.role); //用户
+            let role = res.data.role;
+            switch (role) {
+              case '审核':
+                this.$router.replace({ path: "/examine" });
+                break;
+              case '调度':
+                this.$router.replace({ path: "/dispatch" });
+                break;
+              case '实名制':
+                this.$router.replace({ path: "/scalping" });
+                break;
+              case '固网综调':
+                this.$router.replace({ path: "/fixedNetwork" });
+                break;
+              default:
+                this.$router.replace({ path: "/examine" });
+                break;
+            }
             this.$message.success('登陆成功')
           } else {
             this.$message.error(res.msg)

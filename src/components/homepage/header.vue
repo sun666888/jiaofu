@@ -109,7 +109,7 @@ export default {
       cursor: pointer;
     }
     li:hover {
-      background-color: #337ecc;
+      background-color: #434a50;
     }
     i {
       line-height: 60px;
